@@ -6,11 +6,11 @@ import threading
 server_address = 'localhost'
 server_port = int(input("Enter the server port (default is 9000): ") or 9000)
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-
-# Connect to the server
 # Create a socket for the client
 client_ssl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+
+# Connect to the server
 client_ssl.connect((server_address, server_port))
 client_ssl = context.wrap_socket(client_ssl, server_hostname=server_address)
 
