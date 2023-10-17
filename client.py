@@ -19,7 +19,8 @@ client_ssl = context.wrap_socket(client_ssl, server_hostname=server_address)
 def receive_messages():
     while True:
         message = client_ssl.recv(1024).decode()
-        print(message)
+        if message:
+            print(message)
 
 
 # Start a thread to receive and display messages

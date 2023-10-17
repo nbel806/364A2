@@ -17,13 +17,13 @@ def handle_client(current_socket, current_client_ssl):
     username = current_client_ssl.recv(1024).decode().strip()
 
     # Check if the username is unique
-    if username in clients.values():
-        current_client_ssl.send("Username already taken. Please choose another one.".encode())
-        current_client_ssl.close()
-        return
-    else:
-        clients[current_socket] = [username, current_client_ssl]
-        print(f"Client connected with username: {username}")
+    for sock, ssl_and_username in clients.items():
+        if username == ssl_and_username[0]:
+            current_client_ssl.send("Username already taken. Please choose another one.".encode())
+            handle_client(current_socket,current_client_ssl)
+
+    clients[current_socket] = [username, current_client_ssl]
+    print(f"Client connected with username: {username}")
 
     # Notify all clients about the new user
     for sock, ssl_and_username in clients.items():
